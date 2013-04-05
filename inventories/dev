@@ -1,0 +1,16 @@
+# A single host group is defined for distbones.
+# A parent group of distparent is created to show how hosts can be grouped
+# and how vars can be applied to groups.
+
+[distbones]
+distbones.dev.server.host.com
+
+[distbones:vars]
+project_version=1.0
+
+[distparent:children]
+distbones
+
+[distparent:vars]
+env=dev
+

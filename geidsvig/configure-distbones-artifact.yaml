@@ -1,0 +1,32 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# This playbook configures the artifact for all hosts in an environment, defined by $env $product and $project.
+#
+# @param $env required to indicate which environment this playbook is to be applied against.
+# @param $product required to indicate which product artifact is to be controlled.
+# @param $project required to indicate which project artifact is to be controlled.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+-  hosts: distbones
+   vars:
+     product: geidsvig
+     project: distbones 
+   sudo: true
+   sudo_user: root
+   gather_facts: False
+   tasks:
+
+      #-------------------------------
+      # Configure artifact
+      #-------------------------------
+
+      - include: ../plays/configure.yaml
+      - name: set bootclass = com.geidsvig.DistBonesBoot
+        action: command echo com.geidsvig.DistBonesBoot
+        register: bootclass
+      - include: ../plays/initd.yaml
+      

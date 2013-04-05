@@ -1,0 +1,30 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# This playbook provisions all host servers in an environment, defined by $env $product and $project.
+#
+# @param $env required to indicate which environment this playbook is to be applied against.
+# @param $product required to indicate which product artifact is to be controlled.
+# @param $project required to indicate which project artifact is to be controlled.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+-  hosts: distbones
+   vars:
+     product: geidsvig
+     project: distbones 
+   sudo: true
+   sudo_user: root
+   gather_facts: False
+   tasks:
+
+      #-------------------------------
+      # Environment Setup
+      #-------------------------------
+
+      - include: ../plays/apt-update.yaml
+      - include: ../plays/java.yaml
+      - include: ../plays/tools.yaml
+

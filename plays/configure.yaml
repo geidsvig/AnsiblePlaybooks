@@ -1,0 +1,18 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# Deploys the environment specific config file for the project.
+#
+# @param $product required to indicate which product artifact is to be deployed.
+# @param $project required to indicate which project artifact is to be deployed.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+- name: ensure directory exists
+  action: command mkdir -p /etc/$product
+
+- name: generate config from template
+  action: template src=../$product/templates/$project.conf dest=/etc/$product/$project.conf owner=root group=root mode=0644
+

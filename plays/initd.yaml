@@ -1,0 +1,15 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# Creates the init.d script for the project.
+#
+# @param $product required to indicate which product artifact is to be deployed.
+# @param $project required to indicate which project artifact is to be deployed.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+- name: generate init.d from template
+  action: template src=../templates/sbt-dist-initd.j2 dest=/etc/init.d/$product-$project owner=root group=root mode=0755
+

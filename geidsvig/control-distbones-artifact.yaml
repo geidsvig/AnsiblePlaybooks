@@ -1,0 +1,37 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# This playbook controls the artifact init.d remotely for all hosts in an environment, defined by $env $product and $project.
+#
+# @param $env required to indicate which environment this playbook is to be applied against.
+# @param $product required to indicate which product artifact is to be controlled.
+# @param $project required to indicate which project artifact is to be controlled.
+# @param $cmd required to indicate what command should be performed.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+-  hosts: distbones
+   vars:
+     product: geidsvig
+     project: distbones
+   serial: 1
+   sudo: true
+   sudo_user: root
+   gather_facts: False
+   tasks:
+
+      #-------------------------------
+      # Controls: start|stop|restart 
+      #-------------------------------
+
+      - name: stop
+        action: command /etc/init.d/$product-$project stop
+        only_if: "'$cmd' == 'stop' or '$cmd' == 'restart'"
+
+      - name: start
+        #action: command /etc/init.d/$product-$project start &
+        action: command sh -c "nohup /etc/init.d/$product-$project start 2>&1 >/dev/null &"
+        only_if: "'$cmd' == 'start' or '$cmd' == 'restart'"
+

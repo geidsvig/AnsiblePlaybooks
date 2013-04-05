@@ -1,0 +1,37 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# Deploys artifact to host and unpacks debian.
+#
+# @param $env required to indicate which environment this playbook is to be applied against.
+# @param $product required to indicate which product artifact is to be deployed.
+# @param $project required to indicate which project artifact is to be deployed.
+# @param $project_version required to indicate which artifact version is to be deployed.
+# @param $build_number required to indicate which jenkins build number to be deployed.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+- name: verify $project_version provided 
+  action: command /bin/false
+  when_unset: $project_version
+  
+- name: verify $build_number provided 
+  action: command /bin/false
+  when_unset: $build_number
+
+- name: deploy artifact $product-$project-$project_version.$build_number.deb to $env
+  get_url: url=http://jenkins.serverhost.com/artifacts/$product/$project/dev/$product-$project-$project_version.$build_number.deb dest=/var/tmp/$product-$project-$project_version.$build_number.deb
+  only_if: "'$env' == 'dev'"
+
+- name: deploy artifact $product-$project-$project_version.$build_number.deb to $env
+  action: command wget --quiet --no-check-certificate --user=authorized_user --password=valid_pwd https://name.remotehost.com/artifacts/$product/$project/$env/$product-$project-$project_version.$build_number.deb chdir=/var/tmp creates=/var/tmp/$product-$project-$project_version.$build_number.deb
+  only_if: "'$env' == 'stg' or '$env' == 'prod'"
+
+- name: dpkg install $product-$project-$project_version.$build_number.deb
+  action: command dpkg -iE /var/tmp/$product-$project-$project_version.$build_number.deb 
+
+- name: clean up /var/tmp/
+  action: command rm /var/tmp/$product-$project-$project_version.$build_number.deb
+

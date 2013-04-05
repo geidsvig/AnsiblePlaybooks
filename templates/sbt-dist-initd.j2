@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# These variables are replaced by ansible play initd.yaml
+PRODUCT={{ product }}
+SERVICE={{ project }}
+JAVA_BOOT_CLASS={{ bootclass.stdout }}
+
+# Java options for environment setup.
+JAVA_OPTS={{ java_opts | default("'-Xms512M -Xmx1024M -Xss1M -XX:+UseParallelGC -XX:GCTimeRatio=19'") }}
+# Use the following for Mac OSX machines :  -Djava.library.path=/usr/local/lib
+
+# The following Akka variables will not change
+AKKA_HOME="/usr/local/$PRODUCT/$SERVICE"
+AKKA_CLASSPATH="$AKKA_HOME/config:$AKKA_HOME/lib/*:$AKKA_HOME/deploy/*"
+
+# The following are the expected convention.
+PROJECT_DIR=$AKKA_HOME
+APP_CONFIG="/etc/$PRODUCT/$SERVICE.conf"
+DEFAULT_CONFIG="/etc/default/$PRODUCT/$SERVICE"
+LOG_DIR="/var/log/$PRODUCT"
+LOG_FILE="$LOG_DIR/$SERVICE.out"
+PID_DIR="/var/run/$PRODUCT"
+PID_FILE="$PID_DIR/$SERVICE.pid"
+HUP_FILE="/var/log/$PRODUCT/$SERVICE.nohup.out"
+
+function start {
+  cd $PROJECT_DIR
+  nohup java $JAVA_OPTS -Dconfig.file="$APP_CONFIG" -cp "$AKKA_CLASSPATH" -Dakka.home="$AKKA_HOME" akka.kernel.Main $JAVA_BOOT_CLASS 2>&1 >> $HUP_FILE &
+  echo $! > $PID_FILE
+  echo $SERVICE start issued at `date` >> $LOG_FILE
+}
+
+function stop {
+  if [ ! -f $PID_FILE ]; then
+    echo NO PID FILE $PID_FILE
+  else
+    kill `cat $PID_FILE`
+    echo $SERVICE stop issued at `date` >> $LOG_FILE
+    df -h >> $LOG_FILE
+    sleep 5
+  fi  
+}
+
+# could override the above in /etc/default/*.  (dont forget to export!)
+if [ -e $DEFAULT_CONFIG ]; then
+  . $DEFAULT_CONFIG
+fi
+
+# verify logdir exists
+# it is very likely that Ops will want to symlink /var/log to /mnt/log
+# or something similar to use disk that has space available.
+# do not auto generate directory b/c of this reason.
+if [ ! -d $LOG_DIR ]; then
+  echo NO LOGDIR FOR $PRODUCT
+  exit 1
+fi
+
+# create pid dir if missing
+if [ ! -e $PID_DIR ]; then
+  mkdir -p $PID_DIR
+fi
+
+# start/stop/restart the service
+case "$1" in
+  start)
+    start
+    ;;
+  restart|reload|force-reload)
+    stop
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  *)
+    echo "Usage: $0 start|stop" >&2
+    exit 3
+    ;;
+esac
+

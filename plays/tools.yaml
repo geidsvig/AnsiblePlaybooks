@@ -1,0 +1,23 @@
+---
+# Installs various system tools
+- name: install libtool
+  apt: pkg=libtool update-cache=yes
+- name: install autoconf
+  apt: pkg=autoconf update-cache=yes
+- name: install automake
+  apt: pkg=automake update-cache=yes
+- name: install uuid
+  apt: pkg=uuid-dev update-cache=yes
+- name: install build-essentials
+  apt: pkg=build-essential update-cache=yes
+- name: install make
+  apt: pkg=make update-cache=yes
+- name: install curl
+  apt: pkg=curl update-cache=yes
+- name: install vim
+  apt: pkg=vim update-cache=yes
+- name: install htop
+  apt: pkg=htop update-cache=yes
+- name: install tree
+  apt: pkg=tree update-cache=yes
+

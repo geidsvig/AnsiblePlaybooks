@@ -1,0 +1,5 @@
+---
+# Installs java 1.6 
+- name: install java
+  apt: pkg=openjdk-6-jre-headless update-cache=yes
+
