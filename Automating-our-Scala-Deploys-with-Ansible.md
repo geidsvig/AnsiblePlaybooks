@@ -13,7 +13,7 @@ We took Ansible a few steps beyond server provisioning tasks and started using i
 Creating automation tasks can be tricky, so in order to reduce the complexity of our deployment processes and configuration we agreed on a number of conventions:
 
 - All Scala projects are built as [Akka](http://akka.io) microkernels with the `sbt dist` command, and have a make-deb.sh shell script that bundles the distribution into an installable artifact.
-- Projects use [Git](http://git-scm.com) and have two main branches: `master` and `release`, where `master` is the trunk, and `release` is merged into to create release candidates.
+- Projects use [Git](http://git-scm.com) and have two main branches: `master` and `release`, where `master` is the trunk, and we merge into the `release` branch to create release candidates.
 - Projects have a naming convention with a specific `product` and `project`, even if the two are the same
 - Unix servers are configured identical to each other, and deployed services have the same directory structures:
  - service configuration @ `/etc/[product]/[service].conf`
@@ -36,7 +36,7 @@ Our conversion to automated Jenkins builds running Ansible post deploy tasks has
 
 ### Code Examples
 
-In an attempt to shed some light on how I've gone about combining all of the above, I have created two Git projects. I will follow up with a [case study](http://code.hootsuite.com/?p=284) about how the following examples can be tied together using Jenkins.
+In an attempt to shed some light on how I've gone about combining all of the above, I have created two Git projects. I will follow up with a [case study](http://code.hootsuite.com/?p=284) on how these examples can be tied together using Jenkins.
 
 - [DistBones](https://github.com/geidsvig/DistBones) - A skeleton scala/sbt dist project.
 - [AnsiblePlaybooks](https://github.com/geidsvig/AnsiblePlaybooks) - A sample Ansible project to manage multiple scala/sbt projects.
