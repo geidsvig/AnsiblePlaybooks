@@ -22,6 +22,10 @@
   when_unset: $build_number
 
 - name: deploy artifact $product-$project-$project_version.$build_number.deb to $env
+  copy: src=$debpath/$product-$project-$project_version.$build_number.deb dest=/var/tmp/$product-$project-$project_version.$build_number.deb
+  only_if: "'$env' == 'vagrant'"
+
+- name: deploy artifact $product-$project-$project_version.$build_number.deb to $env
   get_url: url=http://jenkins.serverhost.com/artifacts/$product/$project/dev/$product-$project-$project_version.$build_number.deb dest=/var/tmp/$product-$project-$project_version.$build_number.deb
   only_if: "'$env' == 'dev'"
 

@@ -1,0 +1,28 @@
+---
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+#
+# This playbook deploy the artifact for all hosts in an environment, defined by $env $product and $project.
+#
+# @param $env required to indicate which environment this playbook is to be applied against.
+# @param $product required to indicate which product artifact is to be deployed.
+# @param $project required to indicate which project artifact is to be deployed.
+#
+# @author geidsvig
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+-  hosts: zmq-client 
+   vars:
+     product: geidsvig
+     project: zmq-client
+   sudo: true
+   sudo_user: root
+   gather_facts: False
+   tasks:
+
+      #-------------------------------
+      # Deploy artifact
+      #-------------------------------
+
+      - include: ../plays/deploy-artifact.yaml
+

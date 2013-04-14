@@ -1,0 +1,24 @@
+---
+# Installs zmq (this example project uses dropbox as if it were a company repository)
+- name: copy zeromq_3.2.2-1_amd64.deb to $env
+  get_url: url=https://dl.dropboxusercontent.com/u/4222485/zmq/zeromq_3.2.2-1_amd64.deb dest=/var/tmp/zeromq_3.2.2-1_amd64.deb
+- name: install zeromq (dpkg -i zeromq)
+  action: command dpkg -i /var/tmp/zeromq_3.2.2-1_amd64.deb
+- name: install zeromq (aptitude install java6)
+  action: command aptitude install openjdk-6-jdk pkg-config libtool autoconf -y
+- name: install zeromq (ldconfig)
+  command: /sbin/ldconfig
+
+- name: install zeromq (git jzmq)
+  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-fed80b.tgz creates=/var/tmp/jzmq-fed80b.tgz chdir=/var/tmp
+- name: install zeromq (untar jzmq)
+  command: chdir=/var/tmp/ tar -zxf jzmq-fed80b.tgz
+- name: install zeromq (autogen)
+  command: chdir=/var/tmp/jzmq-fed80b ./autogen.sh
+- name: install zeromq (configure)
+  command: chdir=/var/tmp/jzmq-fed80b ./configure --prefix=/usr
+- name: install zeromq (make)
+  command: chdir=/var/tmp/jzmq-fed80b /usr/bin/make
+- name: install zeromq (make install)
+  command: chdir=/var/tmp/jzmq-fed80b /usr/bin/make install
+

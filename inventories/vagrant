@@ -1,0 +1,7 @@
+[zmq-client]
+vagrant-zmq-client
+
+[zmq-client:vars]
+project_version=1.0
+env=vagrant
+
