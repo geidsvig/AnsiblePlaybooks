@@ -5,3 +5,10 @@ vagrant-zmq-client
 project_version=1.0
 env=vagrant
 
+[zmq-server]
+vagrant-zmq-server
+
+[zmq-server:vars]
+project_version=1.0
+env=vagrant
+
