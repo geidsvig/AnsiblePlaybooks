@@ -10,9 +10,9 @@
   command: /sbin/ldconfig
 
 - name: install zeromq (git jzmq)
-  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-53a76b.tgz creates=/var/tmp/jzmq-53a76b.tgz chdir=/var/tmp
+  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-2.1.2.tgz creates=/var/tmp/jzmq-2.1.2.tgz chdir=/var/tmp
 - name: install zeromq (untar jzmq)
-  command: chdir=/var/tmp/ tar -zxf jzmq-53a76b.tgz
+  command: chdir=/var/tmp/ tar -zxf jzmq-2.1.2.tgz
 - name: install zeromq (autogen)
   command: chdir=/var/tmp/jzmq ./autogen.sh
 - name: install zeromq (configure)
