@@ -10,15 +10,15 @@
   command: /sbin/ldconfig
 
 - name: install zeromq (git jzmq)
-  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-fed80b.tgz creates=/var/tmp/jzmq-fed80b.tgz chdir=/var/tmp
+  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-53a76b.tgz creates=/var/tmp/jzmq-53a76b.tgz chdir=/var/tmp
 - name: install zeromq (untar jzmq)
-  command: chdir=/var/tmp/ tar -zxf jzmq-fed80b.tgz
+  command: chdir=/var/tmp/ tar -zxf jzmq-53a76b.tgz
 - name: install zeromq (autogen)
-  command: chdir=/var/tmp/jzmq-fed80b ./autogen.sh
+  command: chdir=/var/tmp/jzmq ./autogen.sh
 - name: install zeromq (configure)
-  command: chdir=/var/tmp/jzmq-fed80b ./configure --prefix=/usr
+  command: chdir=/var/tmp/jzmq ./configure --prefix=/usr
 - name: install zeromq (make)
-  command: chdir=/var/tmp/jzmq-fed80b /usr/bin/make
+  command: chdir=/var/tmp/jzmq /usr/bin/make
 - name: install zeromq (make install)
-  command: chdir=/var/tmp/jzmq-fed80b /usr/bin/make install
+  command: chdir=/var/tmp/jzmq /usr/bin/make install
 
