@@ -1,24 +1,16 @@
 ---
 # Installs zmq (this example project uses dropbox as if it were a company repository)
-- name: copy zeromq_3.2.2-1_amd64.deb to $env
+- name: install zeromq (download deb)
   get_url: url=https://dl.dropboxusercontent.com/u/4222485/zmq/zeromq_3.2.2-1_amd64.deb dest=/var/tmp/zeromq_3.2.2-1_amd64.deb
-- name: install zeromq (dpkg -i zeromq)
+- name: install zeromq (dpkg -i)
   action: command dpkg -i /var/tmp/zeromq_3.2.2-1_amd64.deb
 - name: install zeromq (aptitude install java6)
   action: command aptitude install openjdk-6-jdk pkg-config libtool autoconf -y
 - name: install zeromq (ldconfig)
   command: /sbin/ldconfig
 
-- name: install zeromq (git jzmq)
-  action: command wget https://dl.dropboxusercontent.com/u/4222485/zmq/jzmq-2.1.2.tgz creates=/var/tmp/jzmq-2.1.2.tgz chdir=/var/tmp
-- name: install zeromq (untar jzmq)
-  command: chdir=/var/tmp/ tar -zxf jzmq-2.1.2.tgz
-- name: install zeromq (autogen)
-  command: chdir=/var/tmp/jzmq ./autogen.sh
-- name: install zeromq (configure)
-  command: chdir=/var/tmp/jzmq ./configure --prefix=/usr
-- name: install zeromq (make)
-  command: chdir=/var/tmp/jzmq /usr/bin/make
-- name: install zeromq (make install)
-  command: chdir=/var/tmp/jzmq /usr/bin/make install
+- name: install jzmq (download deb)
+  get_url: url=https://dl.dropboxusercontent.com/u/4222485/zmq/zeromq-jzmq_19bc50b-1_amd64.deb dest=/var/tmp/zeromq-jzmq_19bc50b-1_amd64.deb
+- name: install jzmq (dpkg -i)
+  action: command dpkg -i /var/tmp/zeromq-jzmq_19bc50b-1_amd64.deb
 
